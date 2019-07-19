@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "prepare": "tsc",
+    "lint": "tslint \"./{src,test}/**/*.ts\"",
     "cmd-line-lookup": "DEBUG=alma-analytics-fetch ts-node src/api-key-test.ts",
     "pretest": "tsc -p .",
     "test": "DEBUG=alma-analytics-fetch nyc mocha",

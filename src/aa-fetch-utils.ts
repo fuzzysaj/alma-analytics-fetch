@@ -18,8 +18,7 @@ const xmlParser = new xml2js.Parser({ attrkey: '$', charkey: '_' });
  * @param {number} [maxRows] - Optionally limit maximum number of rows to return.
  */
 export function getAlmaTable(path: string, filter: string, apikey: string, maxRows?: number)
-  : Promise<AATable>
-{
+  : Promise<AATable> {
   debug('In AlmaAnalyticsUtils.getAlmaTable');
   let token = null;
   let cols = null;
@@ -38,7 +37,7 @@ export function getAlmaTable(path: string, filter: string, apikey: string, maxRo
         totRows += t.rows.length;
         rows = rows.concat(t.rows);
         if (t.isFinished || (maxRows && totRows >= maxRows)) {
-          return cb({ cols: cols, rows: rows })
+          return cb({ cols: cols, rows: rows });
         }
         return handyHelper(totRows, cb);
       });
@@ -50,7 +49,7 @@ export function getAlmaTable(path: string, filter: string, apikey: string, maxRo
           return cb({ cols: cols, rows: rows });
         }
         return handyHelper(totRows, cb);
-      })  
+      });  
     }
   }
   return new Promise((resolve, reject) => handyHelper(0, resolve));
@@ -66,15 +65,14 @@ export function getAlmaTable(path: string, filter: string, apikey: string, maxRo
  */
 function getInitTable(path: string, filter: string, apikey: string, maxRows?: number)
   : Promise<{isFinished: boolean, token: string, cols: Array<AAColumn>,
-    keys: Array<string>, rows: Array<AARow>}>
-{
+    keys: Array<string>, rows: Array<AARow>}> {
   debug('In AlmaAnalyticsUtils.getInitTable');
   if (maxRows == null) maxRows = 1000;
   maxRows = roundLimit(maxRows);
   return getRawTable(path, filter, null, apikey, maxRows)
     .then(obj => {
       let report = obj.report;
-      //debugsilly(JSON.stringify(report, null, 2));
+      // debugsilly(JSON.stringify(report, null, 2));
       let keys = getKeys(report);
       return {
         isFinished: isFinished(report),
@@ -95,15 +93,14 @@ function getInitTable(path: string, filter: string, apikey: string, maxRows?: nu
  * @param {number} [maxRows] - Optional limit on number of rows to return
  */
 function getRemainderTable(keys: Array<string>, token: string, apikey: string, maxRows?: number)
-  : Promise<{isFinished: boolean, token: string, rows: Array<AARow>}>
-{
+  : Promise<{isFinished: boolean, token: string, rows: Array<AARow>}> {
   debug('In AlmaAnalyticsUtils.getRemainderTable');
   if (maxRows == null) maxRows = 1000;
   maxRows = roundLimit(maxRows);
   return getRawTable(null, null, token, apikey, maxRows)
     .then(obj => {
       let report = obj.report;
-      //debugsilly(JSON.stringify(report, null, 2));
+      // debugsilly(JSON.stringify(report, null, 2));
       return {
         isFinished: isFinished(report),
         token: token,
@@ -123,8 +120,7 @@ function getRemainderTable(keys: Array<string>, token: string, apikey: string, m
  * @param {string} [maxRows] - Optional limit on number of rows to return
  */
 export async function getRawTable(path: string, filter: string,
-  token: string, apikey: string, maxRows?: number) : Promise<any>
-{
+  token: string, apikey: string, maxRows?: number): Promise<any> {
   debug('In AlmaAnalyticsUtils.getRawTable');
   if (maxRows == null) maxRows = 1000;
   maxRows = roundLimit(maxRows);
@@ -145,8 +141,8 @@ export async function getRawTable(path: string, filter: string,
     responseType: 'text',
     headers: { Accept: 'application/xml' } 
   });
-  //let r = await axios.get(url, { responseType: 'text', headers: { Accept: 'application/xml' } });
-  //debugsilly(`getRawTable, xml:\n${r.data}`);
+  // let r = await axios.get(url, { responseType: 'text', headers: { Accept: 'application/xml' } });
+  // debugsilly(`getRawTable, xml:\n${r.data}`);
   let parsed = await parseXml(r.data);
   return parsed;
 }
@@ -157,7 +153,7 @@ function parseXml(xmlStr: string): Promise<any> {
   return new Promise((resolve, reject) => {
     xmlParser.parseString(xmlStr, (err, result) => {
       if (err) return reject(err);
-      //debugsilly(`parseXml: json: ${JSON.stringify(result,null,2)}`);
+      // debugsilly(`parseXml: json: ${JSON.stringify(result,null,2)}`);
       return resolve(result);
     });
   });
@@ -203,7 +199,7 @@ function parseKeys(cols: Array<{ $: any }>): Array<string> {
 }
 
 function isFinished(report: any): boolean {
-  return report.QueryResult[0].IsFinished[0] == 'true';
+  return !!report.QueryResult[0].IsFinished[0];
 }
 
 function getToken(report: any): string {
@@ -249,9 +245,9 @@ function roundLimit(limit: number): number {
   limit = Math.trunc(limit);
   if (limit <= 25) return 25;
   let r = limit % 25;
-  let q = Math.floor(limit/25);
-  if (r == 0) return limit;
-  return (q+1)*25;
+  let q = Math.floor(limit / 25);
+  if (r === 0) return limit;
+  return (q + 1) * 25;
 }
 
 export const fineFieldMapping = [
@@ -286,4 +282,4 @@ export const analyticsTypeToJsonMap = {
   'int': 'numeric',
   'timestamp': 'date',
   'date': 'date'
-}
+};

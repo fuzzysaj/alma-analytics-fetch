@@ -5,7 +5,6 @@
 Easily fetch reports from Alma Analytics API (Oracle Business Intelligence Server).  XML output is converted to JSON.  Features include:
 * Automatically fetch multi-part reports.  Alma will return up to 500000 results maximum in 1000 results per page.
 * Query parameters.
-* Automatic conversion of boolean, numeric and date types when possible.
 
 ## Install
 
@@ -44,6 +43,14 @@ const param2 = null; // optional query parameter 2
   // -> JSON table of results
 })();
 ```
+
+## Limitations
+
+Unfortunately, custom field calculations in Oracle BI are dumped out with the actual SQL definition
+as the column name rather than the friendly name you might have given it in Oracle BI.  For
+example, if you created `Total Count` as `COUNT(*)`, the column name will be returned as `COUNT(*)`.
+
+A dummy column with key name `"0"` is always returned.  This should be ignored.
 
 ## Developers of this module
 

@@ -6,8 +6,8 @@
     "lint": "tslint \"./{src,test}/**/*.ts\"",
     "cmd-line-lookup": "DEBUG=alma-analytics-fetch ts-node src/api-key-test.ts",
     "pretest": "tsc -p .",
-    "api-key-test": "ts-node -r dotenv/config src/api-key-test.ts",
-    "get-table-test": "ts-node -r dotenv/config src/get-table-test.ts",
+    "api-key-test": "DEBUG=alma-analytics-fetch ts-node -r dotenv/config src/api-key-test.ts",
+    "get-table-test": "DEBUG=alma-analytics-fetch ts-node -r dotenv/config src/get-table-test.ts",
     "test": "DEBUG=alma-analytics-fetch nyc mocha",
     "posttest": "nyc report --reporter=json"
   },

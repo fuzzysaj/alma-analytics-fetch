@@ -16,7 +16,7 @@ $ npm install @fuzzysaj/alma-analytics-fetch
 With JavaScript:
 
 ```js
-const aaFetch = require('@fuzzysaj/alma-analytics-fetch').locToCounty;
+const aaFetch = require('@fuzzysaj/alma-analytics-fetch').getAlmaTable;
 const urlPath = null; // full path in unencoded form (program automatically does URL encoding).
 const apiKey = null; // Alma Analytics api key
 const param1 = null; // optional query parameter 1
@@ -43,4 +43,26 @@ const param2 = null; // optional query parameter 2
   const table: AATable = await aaFetch(urlPath, apiKey, param1, param2);
   // -> JSON table of results
 })();
+```
+
+## Developers of this module
+
+To run integration tests and test scripts, the following environment variables
+need to be set either in your environment, or in the not-checked-in `.env` file
+in the root directory:
+
+```
+AA_API_KEY=123456789abcdefghijklmnopqrstuvwxyz
+AAF_TEST_REPORT_PATH='/shared/Your Institution/Reports/My Test Report'
+AAF_API_TEST_URL='https://api-na.hosted.exlibrisgroup.com/almaws/v1/analytics/test'
+```
+
+A simple of test of the API key:
+```bash
+npm run api-key-test
+```
+
+Fetching a test report:
+```bash
+npm run get-test-table
 ```

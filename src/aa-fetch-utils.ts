@@ -109,8 +109,6 @@ function getRemainderTable(keys: Array<string>, token: string, apikey: string, m
     });
 }
 
-
-
 /**
  * Return XML from Alma Anayatics API parsed into JSON
  * @param {string} path - Can be null if token is not null
@@ -131,7 +129,6 @@ export async function getRawTable(path: string, filter: string,
     params['path'] = path;
     if (filter) params['filter'] = filter;
   }
-  params['apikey'] = apikey;
   const qs = querystring.stringify(params);
   const url = `https://api-na.hosted.exlibrisgroup.com/almaws/v1/analytics/reports?${qs}`;
   debug(`url: ${url}`);
@@ -139,7 +136,10 @@ export async function getRawTable(path: string, filter: string,
     method: 'get',
     url: url,
     responseType: 'text',
-    headers: { Accept: 'application/xml' } 
+    headers: {
+      Accept: 'application/xml',
+      Authorization: `apikey ${process.env.AA_API_KEY}`
+    } 
   });
   // let r = await axios.get(url, { responseType: 'text', headers: { Accept: 'application/xml' } });
   // debugsilly(`getRawTable, xml:\n${r.data}`);
@@ -221,6 +221,7 @@ function getKeys(report: any): Array<string> {
     .rowset[0]['xsd:schema'][0]["xsd:complexType"][0]["xsd:sequence"][0]["xsd:element"];
   return parseKeys(c);
 }
+
 /**
  * This is meant for debugging purposes only.  Will print output of
  * Alma Table 
@@ -238,8 +239,8 @@ export function printTable(t: any) {
 }
 
 /**
- * Analytics Api requires rows limit in multiples of 25.  So, round up to
- * nearest multiple of 25.
+ * Analytics API requires rows limit in multiples of 25. This function
+ * rounds numbers up to nearest whole number multiple of 25.
  */
 function roundLimit(limit: number): number {
   limit = Math.trunc(limit);
@@ -249,29 +250,6 @@ function roundLimit(limit: number): number {
   if (r === 0) return limit;
   return (q + 1) * 25;
 }
-
-export const fineFieldMapping = [
-  { name: 'Fine Fee Id', sqlType: 'varchar', prop: 'fine_id', propType: 'string' },
-  { name: 'Fine Fee Type', sqlType: 'varchar', prop: 'fine_type', propType: 'string' },
-  { name: 'Original Amount', sqlType: 'double', prop: 'original_amount', propType: 'numeric' },
-  { name: 'Remaining Amount', sqlType: 'double', prop: 'remaining_amount', propType: 'numeric' },
-  { name: 'Fine Fee Creation Date', sqlType: 'timestamp', prop: 'fine_creation_date', propType: 'Date' },
-
-  { name: 'Primary Identifier', sqlType: 'varchar', prop: 'user_id', propType: 'string' },
-
-  { name: 'Status Date', sqlType: 'timestamp', prop: 'status_date', propType: 'Date' },
-  { name: 'Fine Fee Status', sqlType: 'varchar', prop: 'fine_status', propType: 'string' },
-  { name: 'Fine Fee Modification Date', sqlType: 'timestamp', prop: 'fine_modify_date', propType: 'Date' },
-  { name: 'Fine Comment', sqlType: 'varchar', prop: 'fine_note', propType: 'string' },
-
-  { name: 'Fine Fee Transaction Id', sqlType: 'varchar', prop: 'trans_id', propType: 'string' },
-  { name: 'Fine FeeTransaction Type', sqlType: 'varchar', prop: 'trans_type', propType: 'string' },
-  { name: 'Transaction Amount', sqlType: 'double', prop: 'trans_amount', propType: 'numeric' },
-  { name: 'Fine Fee Transaction Creation Date', sqlType: 'timestamp', prop: 'trans_creation_date', propType: 'Date' },
-  { name: 'Transaction Note', sqlType: 'varchar', prop: 'trans_note', propType: 'string' },
-
-  { name: 'Barcode', sqlType: 'varchar', prop: 'item_barcode', propType: 'string' }
-];
 
 export const analyticsTypeToJsonMap = {
   'varchar': 'string',

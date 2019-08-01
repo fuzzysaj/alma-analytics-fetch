@@ -5,3 +5,6 @@ src
 .nyc_output
 coverage
 .vscode
+.nycrc
+.travis.yml
+tslint.json

@@ -8,7 +8,7 @@
     "pretest": "tsc -p .",
     "api-key-test": "DEBUG=alma-analytics-fetch ts-node -r dotenv/config src/api-key-test.ts",
     "get-table-test": "DEBUG=alma-analytics-fetch ts-node -r dotenv/config src/get-table-test.ts",
-    "test": "DEBUG=alma-analytics-fetch nyc mocha",
+    "test": "nyc mocha",
     "posttest": "nyc report --reporter=json"
   },
   "nyc": {

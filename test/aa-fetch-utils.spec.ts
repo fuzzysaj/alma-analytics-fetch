@@ -28,7 +28,7 @@ describe('aa-fetch-utils', function() {
     });
   });
 
-  describe.skip('getAlmaTable', function() {
+  describe('getAlmaTable', function() {
     this.timeout(10000);
     it('When invalid API key given, a 4xx error results', async function() {
       await expect(getAlmaTable('/invalid path', null, 'invalid api key',

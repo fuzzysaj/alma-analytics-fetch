@@ -8,3 +8,4 @@ coverage
 .nycrc
 .travis.yml
 tslint.json
+test

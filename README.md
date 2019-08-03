@@ -25,6 +25,8 @@ const param2 = null; // optional query parameter 2
 (async ()=> {
   const table = await aaFetch(urlPath, apiKey, param1, param2);
   // -> JSON table of results
+  // { "cols": [ { "name": "Fruit", "type": "varchar" }, { "name": "Cost", "type": "double" } ]
+  //   "rows": [ [ "apple", "1.99" ], [ "orange", "2.49" ], [ "banana", "0.59" ] ] }
 })();
 ```
 
@@ -40,7 +42,8 @@ const param2 = null; // optional query parameter 2
 
 (async ()=> {
   const table: AATable = await aaFetch(urlPath, apiKey, param1, param2);
-  // -> JSON table of results
+  // { "cols": [ { "name": "Fruit", "type": "varchar" }, { "name": "Cost", "type": "double" } ]
+  //   "rows": [ [ "apple", "1.99" ], [ "orange", "2.49" ], [ "banana", "0.59" ] ] }
 })();
 ```
 
@@ -49,8 +52,6 @@ const param2 = null; // optional query parameter 2
 Unfortunately, custom field calculations in Oracle BI are dumped out with the actual SQL definition
 as the column name rather than the friendly name you might have given it in Oracle BI.  For
 example, if you created `Total Count` as `COUNT(*)`, the column name will be returned as `COUNT(*)`.
-
-A dummy column with key name `"0"` is always returned.  This should be ignored.
 
 ## Developers of this module
 

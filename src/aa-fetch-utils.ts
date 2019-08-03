@@ -192,7 +192,7 @@ function parseCols(cols: Array<{ $: any }>): Array<AAColumn> {
  * @param cols - Analytics columns section
  */
 function parseKeys(cols: Array<{ $: any }>): Array<string> {
-  return cols.map(x => x.$.name).filter(x => (x !== 0 && x !== "0"));
+  return cols.map(x => x.$.name.trim()).filter(x => x !== 'Column0');
 }
 
 function getQueryResult(report: any): any {

@@ -182,7 +182,8 @@ function rowsToArray(rows: any, keys: Array<string>): Array<AARow> {
  * @param cols - Analytics columns section
  */
 function parseCols(cols: Array<{ $: any }>): Array<AAColumn> {
-  return cols.map(x => ({ name: x.$["saw-sql:columnHeading"].trim(), type: x.$["saw-sql:type"] }));
+  return cols.map(x => ({ name: x.$["saw-sql:columnHeading"].trim(), type: x.$["saw-sql:type"] }))
+    .filter(x => (x.name !== 0 && x.name !== "0"));
 }
 
 /**
@@ -191,7 +192,7 @@ function parseCols(cols: Array<{ $: any }>): Array<AAColumn> {
  * @param cols - Analytics columns section
  */
 function parseKeys(cols: Array<{ $: any }>): Array<string> {
-  return cols.map(x => x.$.name);
+  return cols.map(x => x.$.name).filter(x => (x !== 0 && x !== "0"));
 }
 
 function getQueryResult(report: any): any {

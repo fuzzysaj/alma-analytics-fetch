@@ -23,6 +23,7 @@ export async function getAlmaTable(path: string, filter: string, apiKey: string,
   apiRootUrl: string, maxRows?: number)
   : Promise<AATable> {
   debug('In AlmaAnalyticsUtils.getAlmaTable');
+  const start = Date.now();
   if (!maxRows) maxRows = 500000;
   maxRows = roundLimit(maxRows);
   let totRows = 0;
@@ -35,16 +36,18 @@ export async function getAlmaTable(path: string, filter: string, apiKey: string,
   let rows: Array<Array<string >> = [];
   rows = rows.concat(t.rows);
   let fin = t.isFinished;
-  debug(`fin 0: ${fin}`);
+  debug(`finished?: ${fin}`);
 
   while (!fin && totRows <= maxRows) {
     const t = await getRemainderTable(keys, token, apiKey, apiRootUrl, chunkLimit);
     totRows += t.rows.length;
+    debug(`returned ${t.rows.length} rows with new total row count ${totRows}`);
     rows = rows.concat(t.rows);
     fin = t.isFinished;
-    debug(`fin 1: ${fin}`);
+    debug(`finished?: ${fin}`);
   }
 
+  debug(`fetched ${rows.length} rows in ${Math.round((Date.now() - start) / 1000)} seconds.`);
   return ({ cols: cols, rows: rows });
 }
 

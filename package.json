@@ -1,6 +1,6 @@
 {
   "name": "@fuzzysaj/alma-analytics-fetch",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "scripts": {
     "prepare": "tsc",
     "lint": "tslint \"./{src,test}/**/*.ts\"",

@@ -1,12 +1,12 @@
 import { AATable, getAlmaTable  } from '../src';
-import { roundLimit } from '../src/aa-fetch-utils';
+import { roundLimit } from '../src/aa-fetch-table';
 import 'mocha';
 import * as chai from "chai";
 import * as chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-describe('aa-fetch-utils', function() {
+describe('aa-fetch-table', function() {
   describe('roundLimit correctness', function() {
     it('When <= 25, returns 25', function() {
       expect(roundLimit(-10)).to.equal(25);

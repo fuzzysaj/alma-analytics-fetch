@@ -47,6 +47,9 @@ const param2 = null; // optional query parameter 2
 })();
 ```
 
+Several helpful raw table data processing functions are included such as 'convertStr', 'getColPositions',
+and 'rawJsonToClean'
+
 ## Limitations
 
 Unfortunately, custom field calculations in Oracle BI are dumped out with the actual SQL definition

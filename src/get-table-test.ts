@@ -1,5 +1,5 @@
 import { getAlmaTable, AATable } from './';
-import { tableToConsole, getRawTable } from './aa-fetch-utils';
+import { tableToConsole, getRawTable } from './aa-fetch-table';
 import Debug from 'debug';
 const debug = Debug('alma-analytics-fetch');
 

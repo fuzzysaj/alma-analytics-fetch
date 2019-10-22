@@ -15,6 +15,8 @@ const xmlParser = new xml2js.Parser({ attrkey: '$', charkey: '_' });
  * 
  * @param {string} path - Non-urlencoded, Alma Analytics report path.
  * @param {string} filter - Non-urlencoded.  Optional filter parmeter.  Null if not needed. 
+ *                          See https://developers.exlibrisgroup.com/blog/Working-with-Analytics-REST-APIs/
+ *                          for details on filter string syntax.
  * @param {string} apiKey - Alam Analytics API key.
  * @param {string} apiRootUrl - Root analytics URL.  E.g. https://api-na.hosted.exlibrisgroup.com/almaws/v1/analytics 
  * @param {number} [maxRows] - Optionally limit maximum number of rows to return.

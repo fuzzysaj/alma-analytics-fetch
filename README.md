@@ -4,7 +4,8 @@
 
 Easily fetch reports from Alma Analytics API (Oracle Business Intelligence Server).  XML output is converted to JSON.  Features include:
 * Automatically fetch multi-part reports.  Alma will return up to 500000 results maximum in 1000 results per page.
-* Query parameters.
+* Functions to identify and clean fields
+* Support for filter parameter
 
 ## Install
 
@@ -20,7 +21,8 @@ const rawJsonToClean = require('@fuzzysaj/alma-analytics-fetch').rawJsonToClean;
 const urlPath = '/shared/My University/Reports/My Custom Report'; // full path in unencoded form (program automatically does URL encoding).
 const apiKey = 'epc39ao4909b8402abieoanb04adflhhswas'; // Your Alma Analytics api keyj
 const apiRootUrl = 'https://api-na.hosted.exlibrisgroup.com/almaws/v1/analytics'; // API URL. Change na to eu for Europe
-// Optional Analytics report filter.  Pass in null ignore.  This is an example for passing an a loan id
+// Optional Analytics report filter.  Pass in null ignore.  This is an example for passing an a loan id.
+// See https://developers.exlibrisgroup.com/blog/Working-with-Analytics-REST-APIs/ for details on filter syntax
 const filter = (loan_id) => { return `<sawx:expr xsi:type="sawx:comparison" op="greater" ` +
    `xmlns:saw="com.siebel.analytics.web/report/v1.1" ` +
    `xmlns:sawx="com.siebel.analytics.web/expression/v1.1" ` +

@@ -15,36 +15,47 @@ $ npm install @fuzzysaj/alma-analytics-fetch
 With JavaScript:
 
 ```js
-const aaFetch = require('@fuzzysaj/alma-analytics-fetch').getAlmaTable;
-const urlPath = null; // full path in unencoded form (program automatically does URL encoding).
-const apiKey = null; // Alma Analytics api key
-const param1 = null; // optional query parameter 1
-const param2 = null; // optional query parameter 2
-// and as many query parameters as needed
+const getAlmaTable = require('@fuzzysaj/alma-analytics-fetch').getAlmaTable;
+const rawJsonToClean = require('@fuzzysaj/alma-analytics-fetch').rawJsonToClean;
+const urlPath = '/shared/My University/Reports/My Custom Report'; // full path in unencoded form (program automatically does URL encoding).
+const apiKey = 'epc39ao4909b8402abieoanb04adflhhswas'; // Your Alma Analytics api keyj
+const apiRootUrl = 'https://api-na.hosted.exlibrisgroup.com/almaws/v1/analytics'; // API URL. Change na to eu for Europe
+// Optional Analytics report filter.  Pass in null ignore.  This is an example for passing an a loan id
+const filter = (loan_id) => { return `<sawx:expr xsi:type="sawx:comparison" op="greater" ` +
+   `xmlns:saw="com.siebel.analytics.web/report/v1.1" ` +
+   `xmlns:sawx="com.siebel.analytics.web/expression/v1.1" ` +
+   `xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ` +
+   `xmlns:xsd="http://www.w3.org/2001/XMLSchema">` +
+   `<sawx:expr xsi:type="sawx:sqlExpression">EVALUATE('LPAD(%1,20,%2)', "Loan Details"."Item Loan Id", '0')</sawx:expr>` +
+   `<sawx:expr xsi:type="xsd:string">${loan_id}</sawx:expr>` +
+   `</sawx:expr>` };
+
+export const loansColMap = [
+  {colName: 'loan_id', pattern: 'EVALUATE(' },
+  {colName: 'fruit', pattern: 'Fruit' },
+  {colName: 'cost', pattern: 'Cost', 'float' } // leave undefined to leave as string, else 'int', 'float', or 'boolean'
+];
 
 (async ()=> {
-  const table = await aaFetch(urlPath, apiKey, param1, param2);
+  const raw = await getAlmaTable(urlPath, filter('00098765432101234565'), apiKey, apiRootUrl);
   // -> JSON table of results
-  // { "cols": [ { "name": "Fruit", "type": "varchar" }, { "name": "Cost", "type": "double" } ]
-  //   "rows": [ [ "apple", "1.99" ], [ "orange", "2.49" ], [ "banana", "0.59" ] ] }
+  // { "cols": [ { "name": "EVALUATE('LPAD(%1,20,%2)', "Loan Details"."Item Loan Id", "type": "varchar"" }, { "name": "Fruit", "type": "varchar" }, { "name": "Cost", "type": "double" } ]
+  //   "rows": [ [ "00098765432101234566", "apple", "1.99" ], [ "00098765432101234567", "orange", "2.49" ], [ "banana", "0.59" ] ] }
+  const clean = rawJsonToClean(raw, loansColMap);
+  // -> cleans up results
+  // [
+  //  { loan_id: '00098765432101234566', fruit: 'apple', cost: 1.99 },
+  //  { loan_id: '00098765432101234567', fruit: 'orange', cost: 2.49 }
+  // ]
+
 })();
 ```
 
 With TypeScript:
 
 ```ts
-import { aaFetch, AATable } from '@fuzzysaj/alma-analytics-fetch'
-const urlPath = null; // full path in unencoded form (program automatically does URL encoding).
-const apiKey = null; // Alma Analytics api key
-const param1 = null; // optional query parameter 1
-const param2 = null; // optional query parameter 2
-// and as many query parameters as needed
-
-(async ()=> {
-  const table: AATable = await aaFetch(urlPath, apiKey, param1, param2);
-  // { "cols": [ { "name": "Fruit", "type": "varchar" }, { "name": "Cost", "type": "double" } ]
-  //   "rows": [ [ "apple", "1.99" ], [ "orange", "2.49" ], [ "banana", "0.59" ] ] }
-})();
+import { getAlmaTable, AATable, ColMap, rawJsonToClean } from '@fuzzysaj/alma-analytics-fetch'
+// everything else the same as JavaScript example
 ```
 
 Several helpful raw table data processing functions are included such as 'convertStr', 'getColPositions',

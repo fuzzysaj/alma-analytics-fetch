@@ -36,9 +36,29 @@ describe('table-helpers', function() {
   });
 
   describe('getColPositions', function() {
-    it('should find column positions from raw table data', function() {  
+    it('should return -1 for unmatched column positions', function() {
+      const pos = getColPositions(cols, [
+        {colName: 'location', pattern: 'crazy pattern'}
+      ]);
+      expect(pos.length).to.equal(1);
+      expect(pos[0].colPos).to.equal(-1);
+      expect(pos[0].colMap.colName).to.equal('location');
+    });
+
+    it('should find column positions from raw table data with simple string pattern', function() {  
       const pos = getColPositions(cols, colMaps);
       expect(pos.length).to.equal(2);
+      expect(pos[0].colPos).to.equal(0);
+      expect(pos[0].colMap.colName).to.equal('location');
+      expect(pos[1].colPos).to.equal(2);
+      expect(pos[1].colMap.colName).to.equal('count');
+    });
+
+    it('should find column positions from raw table data with RegEx', function() {  
+      const pos = getColPositions(cols, [
+        {colName: 'location', pattern: /rar/},
+        {colName: 'count', pattern: new RegExp("^.*ans$")}
+      ]);
       expect(pos[0].colPos).to.equal(0);
       expect(pos[0].colMap.colName).to.equal('location');
       expect(pos[1].colPos).to.equal(2);

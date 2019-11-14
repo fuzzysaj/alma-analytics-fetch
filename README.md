@@ -33,9 +33,9 @@ const filter = (loan_id) => { return `<sawx:expr xsi:type="sawx:comparison" op="
    `</sawx:expr>` };
 
 export const loansColMap = [
-  {colName: 'loan_id', pattern: 'EVALUATE(' },
-  {colName: 'fruit', pattern: 'Fruit' },
-  {colName: 'cost', pattern: 'Cost', 'float' } // leave undefined to leave as string, else 'int', 'float', or 'boolean'
+  {colName: 'loan_id', pattern: /.*ATE$/ }, // pattern can be either a RegEx or a string
+  {colName: 'fruit', pattern: new RegEx("Fru") }, // string patterns will be matched with String.prototype.startsWith()
+  {colName: 'cost', pattern: 'Cos', 'float' } // leave undefined to leave as string, else 'int', 'float', or 'boolean'
 ];
 
 (async ()=> {

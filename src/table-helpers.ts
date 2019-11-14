@@ -4,7 +4,7 @@ import {AAColumn, AATable} from './AATable';
 
 export type ConvertType = 'int' | 'float' | 'boolean';
 export type DataType = string | number | boolean;
-export type ColMap = {colName: string, pattern: string, convertTo?: ConvertType };
+export type ColMap = {colName: string, pattern: string | RegExp, convertTo?: ConvertType };
 type ColPosToMap = { colPos: number, colMap: ColMap };
 
 /**
@@ -16,12 +16,23 @@ type ColPosToMap = { colPos: number, colMap: ColMap };
  * Note: convertTo is not used by this function.
  * Example of return: [ colPos: 1, colMap: {colName: 'location', pattern: 'Library'},
  *                      colPos: 0, colMap: {colName: 'count', pattern: 'Loans', convertTo: 'int' } ]
+ @param cols - raw column data to match on
+ @param colMaps - mapping for column field names
+ @returns map of column positions.  -1 will be returned for columns with no match
  */
 export function getColPositions(cols: AAColumn[], colMaps: ColMap[]): ColPosToMap[] {
   const p2ms = new Array<ColPosToMap>();
   for (const cm of colMaps) {
+    let pos = -1;
+    if (cm.pattern instanceof RegExp) {
+      const re: RegExp = cm.pattern;
+      pos = cols.findIndex(c => c.name.match(re));
+    } else {
+      const str: string = cm.pattern;
+      pos = cols.findIndex(c => c.name.startsWith(str));
+    }
     p2ms.push({
-      colPos: cols.findIndex(c => c.name.startsWith(cm.pattern)),
+      colPos: pos,
       colMap: cm
     });
   }

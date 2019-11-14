@@ -29,5 +29,6 @@
     "plaintext",
     "jsonc",
     "markdown"
-  ]
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

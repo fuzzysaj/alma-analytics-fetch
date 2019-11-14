@@ -48,6 +48,7 @@ export function getColPositions(cols: AAColumn[], colMaps: ColMap[]): ColPosToMa
  *   all result in false.  Otherwise true.
  */
 export function convertStr(s: string, cType?: ConvertType): DataType {
+  if (s === null || s === undefined) return s;
   if (!cType) return s;
   if (cType === 'int') return parseInt(s);
   if (cType === 'float') return parseFloat(s);
@@ -87,7 +88,7 @@ export function convertStr(s: string, cType?: ConvertType): DataType {
     for (const c2pm of c2pms) {
       const i = c2pm.colPos;
       const c2m = c2pm.colMap;
-      obj = {...obj, ...{[c2m.colName]: convertStr(row[i].trim(), c2m.convertTo)}};
+      obj = {...obj, ...{[c2m.colName]: convertStr(row[i]?.trim(), c2m.convertTo)}};
     }
     return obj;
   }

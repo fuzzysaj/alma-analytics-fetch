@@ -1,6 +1,6 @@
 {
   "name": "@fuzzysaj/alma-analytics-fetch",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "scripts": {
     "prepare": "tsc",
     "lint": "tslint \"./{src,test}/**/*.ts\"",
@@ -37,12 +37,21 @@
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/chai": "^4.2.11",
     "@types/chai-as-promised": "^7.1.2",
     "@types/debug": "^4.1.5",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.12.31",
+=======
+    "@istanbuljs/nyc-config-typescript": "^1.0.0",
+    "@types/chai": "^4.2.7",
+    "@types/chai-as-promised": "^7.1.2",
+    "@types/debug": "^4.1.5",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^13.1.0",
+>>>>>>> 6cad76826c9a14c4c5536def6bda29db9a01cd7b
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "codecov": "^3.6.5",
@@ -50,8 +59,14 @@
     "npm-run-all": "^4.1.5",
     "nyc": "^15.0.0",
     "source-map-support": "^0.5.16",
+<<<<<<< HEAD
     "ts-node": "^8.8.1",
     "tslint": "^6.1.0",
     "typescript": "^3.8.3"
+=======
+    "ts-node": "^8.5.4",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.4"
+>>>>>>> 6cad76826c9a14c4c5536def6bda29db9a01cd7b
   }
 }

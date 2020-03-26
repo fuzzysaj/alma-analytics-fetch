@@ -8,7 +8,7 @@ import * as xml2js from 'xml2js';
 const xmlParser = new xml2js.Parser({ attrkey: '$', charkey: '_' });
 
 /**
- * Call Alma Analytis API to get desired report.  This only works for
+ * Call Alma Analytics API to get desired report.  This only works for
  * reports with a single, simple table output.  An exception is likely
  * to be thrown for anything else.  Returns a Promise that resolves
  * to an AlmaTable object.  When not successful, an error is thrown

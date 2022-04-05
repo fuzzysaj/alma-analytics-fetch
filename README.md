@@ -1,6 +1,6 @@
 # @fuzzysaj/alma-analytics-fetch
 
-[![npm (scoped)](https://img.shields.io/npm/v/@fuzzysaj/alma-analytics-fetch.svg)](https://www.npmjs.com/package/@fuzzysaj/alma-analytics-fetch) [![Build Status](https://travis-ci.org/fuzzysaj/alma-analytics-fetch.svg?branch=master)](https://travis-ci.org/fuzzysaj/alma-analytics-fetch) [![dependencies Status](https://david-dm.org/fuzzysaj/alma-analytics-fetch/status.svg)](https://david-dm.org/fuzzysaj/alma-analytics-fetch) [![code coverage]( https://img.shields.io/codecov/c/github/fuzzysaj/alma-analytics-fetch.svg)](https://codecov.io/gh/fuzzysaj/alma-analytics-fetch)
+[![npm (scoped)](https://img.shields.io/npm/v/@fuzzysaj/alma-analytics-fetch.svg)](https://www.npmjs.com/package/@fuzzysaj/alma-analytics-fetch) [![Build Status](https://travis-ci.org/fuzzysaj/alma-analytics-fetch.svg?branch=master)](https://travis-ci.org/fuzzysaj/alma-analytics-fetch) [![code coverage]( https://img.shields.io/codecov/c/github/fuzzysaj/alma-analytics-fetch.svg)](https://codecov.io/gh/fuzzysaj/alma-analytics-fetch)
 
 Easily fetch reports from Alma Analytics API (Oracle Business Intelligence Server).  XML output is converted to JSON.  Features include:
 * Automatically fetch multi-part reports.  Alma will return up to 500000 results maximum in 1000 results per page.
